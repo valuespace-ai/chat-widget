@@ -1,0 +1,28 @@
+{
+  "name": "react-chat-widget",
+  "version": "1.0.0",
+  "description": "Bot Framework Web Chat widget using React and Vite",
+  "main": "main.jsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "botframework-webchat": "^4.15.0",
+    "browserfs": "^1.4.3",
+    "path-browserify": "^1.0.1",
+    "punycode": "^2.3.1",
+    "react": "^18.0.0",
+    "react-audio-voice-recorder": "^2.2.0",
+    "react-dom": "^18.0.0",
+    "source-map": "^0.7.4",
+    "url-polyfill": "^1.1.13"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.0.0",
+    "typescript": "^5.8.3",
+    "vite": "^5.0.0"
+  }
+}

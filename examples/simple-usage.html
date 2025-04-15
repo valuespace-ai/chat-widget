@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ValueSpace Chat Widget - Simple Usage Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h1 {
+      color: #101330;
+      margin-bottom: 20px;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .code-block {
+      background-color: #f0f0f0;
+      border-left: 4px solid #101330;
+      padding: 15px;
+      margin: 20px 0;
+      font-family: monospace;
+      overflow-x: auto;
+    }
+    .highlight {
+      background-color: #e6f7ff;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>ValueSpace Chat Widget - Simple Usage</h1>
+    <p>This page demonstrates the most basic integration of the ValueSpace Chat Widget. The widget is loaded with minimal configuration and without any test buttons or advanced features.</p>
+    
+    <h2>How to Integrate</h2>
+    <p>To add the chat widget to your website, simply include the script and initialize it with your configuration:</p>
+    
+    <div class="code-block">
+      &lt;!-- 1. Include the chat widget script --&gt;<br>
+      &lt;script src="path/to/vs-chat-widget.iife.js"&gt;&lt;/script&gt;<br><br>
+      
+      &lt;!-- 2. Initialize the widget with your configuration --&gt;<br>
+      &lt;script&gt;<br>
+      &nbsp;&nbsp;window.initChatWidget({<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;botServiceUrl: 'http://localhost:3978',<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;userName: 'User',<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;tenantId: 'default'<br>
+      &nbsp;&nbsp;});<br>
+      &lt;/script&gt;
+    </div>
+    
+    <h2>Configuration Options</h2>
+    <p>The most important configuration options are:</p>
+    <ul>
+      <li><span class="highlight">botServiceUrl</span>: URL to your bot service</li>
+      <li><span class="highlight">userName</span>: Name of the user (optional)</li>
+      <li><span class="highlight">tenantId</span>: Your tenant identifier (optional)</li>
+      <li><span class="highlight">customStyles</span>: Object containing style customizations (optional)</li>
+    </ul>
+    
+    <p>For more advanced configuration options, see the documentation or the advanced example.</p>
+  </div>
+
+  <!-- Include the chat widget script -->
+  <script src="../dist/vs-chat-widget.iife.js"></script>
+  
+  <!-- Initialize the widget with minimal configuration -->
+  <script>
+    window.initChatWidget({
+      botServiceUrl: 'http://localhost:3978',
+      userName: 'User',
+      tenantId: 'default',
+      customStyles: {
+        styleOptions: {
+          // Basic styling
+          launcher: {
+            background: '#101330',
+            color: 'white'
+          },
+          // Welcome popup configuration
+          welcomeInitialDelay: 10000, // 10 seconds
+          // Header configuration
+          headerTitle: 'Virtual Assistant',
+          headerSubtitle: 'How can I help you today?',
+          headerBackgroundColor: '#101330',
+          headerTextColor: 'white'
+        }
+      }
+    });
+  </script>
+</body>
+</html>

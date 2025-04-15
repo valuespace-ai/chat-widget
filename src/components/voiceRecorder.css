@@ -1,0 +1,199 @@
+/* Audio recorder styling */
+.audio-recorder {
+  display: flex;
+  align-items: center;
+}
+
+/* When recording, make it take full width */
+.audio-recorder.recording {
+  background-color: white !important;
+}
+
+/* Make the controls take full width */
+.audio-recorder-controls {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+/* Make buttons inside controls take full height */
+.audio-recorder-controls button {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  min-height: 40px;
+}
+
+/* Ensure SVG icons are properly centered */
+.audio-recorder-controls button svg {
+  margin: auto;
+}
+
+/* Style the icons */
+.audio-recorder-icon {
+  cursor: pointer;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.audio-recorder-icon img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Audio recorder container */
+.audio-recorder-container {
+  display: flex;
+  align-items: center;
+}
+
+.recorder-container {
+  display: flex;
+  order: -1;
+  /* Ensures it appears before other flex items */
+  width: 100%;
+  /* Take full width of parent */
+  justify-content: flex-start;
+  /* Align items to the start */
+  flex: 1;
+  /* Take up all available space */
+}
+
+/* Timer styling */
+.audio-recorder-timer {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Visualizer styling */
+.audio-recorder-visualizer {
+  background-color: transparent;
+  min-width: 100px;
+  width: 100%;
+  margin: 0px 10px 0px 10px !important;
+  height: 16px !important;
+}
+
+/* Make canvas fill its container */
+.audio-recorder-visualizer canvas {
+  width: 100% !important;
+  height: 16px !important;
+}
+
+/* Visualizer fallback */
+.audio-recorder-visualizer-fallback {
+  width: 100%;
+  height: 16px;
+  background-color: transparent;
+}
+
+/* Audio recorder button - match WebChat styling */
+.audio-recorder-button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: 40px;
+  outline: 0;
+  padding: 0;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  height: 100%;
+  min-height: 40px;
+}
+
+/* Common style for all voice recording buttons */
+[data-testid^="ar_"] {
+  color: var(--button-color);
+}
+
+/* Style for SVG icons in buttons */
+[data-testid^="ar_"] svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Style for resume button - red color */
+[data-testid="ar_resume"] svg circle {
+  fill: #f44336;
+}
+
+/* Style for send button */
+[data-testid="ar_send"] svg {
+  width: 28px !important;
+  height: 28px !important;
+  stroke-width: 0.2 !important;
+  /* Further reduce thickness */
+  /* No rotation needed since we're using the webchat send icon */
+}
+
+/* Style for send button path */
+[data-testid="ar_send"] svg path {
+  fill: currentColor;
+}
+
+/* Remove polygon styling since we're not using that SVG anymore */
+/* Style for send button polygon */
+/* [data-testid="ar_send"] svg polygon {
+  fill: var(--button-color);
+  stroke: var(--button-color);
+} */
+
+/* Remove borders from control buttons */
+button[data-testid="ar_trash"],
+button[data-testid="ar_pause"] {
+  border: 0 !important;
+  background: transparent !important;
+  outline: 0;
+}
+
+/* WebChat button overrides */
+.webchat__icon-button,
+.webchat__send-box__button {
+  border-color: transparent !important;
+  background: transparent !important;
+  fill: var(--button-color);
+}
+
+/* Add hover effect to all buttons - make it square and take full button size */
+button[data-testid^="ar_"]:hover,
+.webchat__icon-button:hover {
+  background-color: #f5f0e6 !important;
+  border-radius: 0 !important;
+  /* Make it square */
+}
+
+/* Make all interactive elements non-selectable */
+.audio-recorder-button,
+.audio-recorder-timer,
+.audio-recorder-visualizer {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Remove the previous hover effect styling that didn't work */
+.webchat__icon-button:not(:disabled):not([aria-disabled="true"]):not(:active):hover .webchat__icon-button__shade {
+  background-color: transparent;
+}
+
+.webchat__icon-button__shade {
+  display: none;
+}
+
+/* Ensure buttons have relative positioning for hover effect */
+.webchat__icon-button {
+  position: relative;
+}

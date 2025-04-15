@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ValueSpace Chat Widget - Complete Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      padding-bottom: 100px;
+      /* Add extra padding at the bottom to ensure content isn't hidden behind the chat widget */
+    }
+
+    h1 {
+      color: #101330;
+      margin-bottom: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .code-block {
+      background-color: #f0f0f0;
+      border-left: 4px solid #101330;
+      padding: 15px;
+      margin: 20px 0;
+      font-family: monospace;
+      overflow-x: auto;
+    }
+
+    .highlight {
+      background-color: #e6f7ff;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .config-section {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    code {
+      font-family: monospace;
+    }
+
+    /* Add a fixed header to make it clear this is a documentation page */
+    .page-header {
+      background-color: #101330;
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Make sure the chat widget doesn't overlap important content */
+    .footer-spacer {
+      height: 120px;
+      /* Extra space at the bottom of the page */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-header">
+    <h1>ValueSpace Chat Widget - Complete Example</h1>
+  </div>
+
+  <div class="content">
+    <p><strong>Note:</strong> This is a documentation page. The actual chat widget appears in the bottom-right corner of
+      the page.</p>
+
+    <p>This page demonstrates the complete ValueSpace Chat Widget with all styling options and the toggle button. The
+      widget is fully functional and connected to the DirectLine service.</p>
+
+    <div class="config-section">
+      <h2>Current Configuration</h2>
+      <p>The widget below is initialized with the following configuration:</p>
+      <pre><code>{
+  botServiceUrl: 'http://localhost:3978',
+  userName: 'User',
+  tenantId: 'default',
+  customStyles: {
+    styleOptions: {
+      // Launcher (toggle button) styling
+      launcher: {
+        background: '#db4061',
+        color: 'white',
+        width: '60px',
+        height: '60px'
+      },
+      
+      // Chat window dimensions
+      rootWidth: '400px',
+      rootHeight: '700px',
+      
+      // Input area styling
+      sendBoxBackground: 'white',
+      
+      // Message bubbles
+      bubbleMaxWidth: 280,
+      bubbleBackground: "white",
+      bubbleFromUserBackground: "#20b69e",
+      bubbleTextColor: "#000000",
+      bubbleFromUserTextColor: "white",
+      
+      // Avatar configuration
+      welcomeAvatarImage: 'https://e7.pngegg.com/pngimages/191/906/png-clipart-internet-bot-chatbot-business-chatbot-avatar-child-face.png',
+      hideAvatar: true,
+      avatarSize: 0,
+      
+      // Welcome popup
+      welcomeInitialDelay: 10000, // 10 seconds
+      
+      // Header configuration
+      headerTitle: 'Hi there! 👋',
+      headerSubtitle: 'Ask me anything — I'm here to help!',
+      headerBackgroundColor: '#101330',
+      headerTextColor: 'white',
+      showHeader: true
+    }
+  }
+}</code></pre>
+    </div>
+
+    <h2>How to Integrate</h2>
+    <p>To add the complete chat widget to your website:</p>
+
+    <div class="code-block">
+      &lt;!-- 1. Include the chat widget script --&gt;<br>
+      &lt;script src="path/to/vs-chat-widget.iife.js"&gt;&lt;/script&gt;<br><br>
+
+      &lt;!-- 2. Initialize the widget with your configuration --&gt;<br>
+      &lt;script&gt;<br>
+      &nbsp;&nbsp;window.initChatWidget({<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;botServiceUrl: 'http://localhost:3978',<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;userName: 'User',<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;tenantId: 'default',<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;customStyles: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styleOptions: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Your style customizations here<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;});<br>
+      &lt;/script&gt;
+    </div>
+
+    <h2>Available Style Options</h2>
+    <p>The widget supports extensive styling options, including:</p>
+    <ul>
+      <li><span class="highlight">launcher</span>: Customize the toggle button appearance</li>
+      <li><span class="highlight">rootWidth/rootHeight</span>: Set the chat window dimensions</li>
+      <li><span class="highlight">sendBoxBackground</span>: Style the input area</li>
+      <li><span class="highlight">bubbleBackground/bubbleFromUserBackground</span>: Style message bubbles</li>
+      <li><span class="highlight">headerTitle/headerSubtitle</span>: Customize the header text</li>
+      <li><span class="highlight">headerBackgroundColor/headerTextColor</span>: Style the header</li>
+      <li><span class="highlight">welcomeInitialDelay</span>: Set delay for welcome popup</li>
+    </ul>
+
+    <div class="footer-spacer"></div>
+  </div>
+
+  <!-- Include the chat widget script -->
+  <script src="../dist/vs-chat-widget.iife.js"></script>
+
+  <!-- Initialize the widget with complete configuration -->
+  <script>
+    window.initChatWidget({
+      botServiceUrl: 'http://localhost:3978',
+      userName: 'User',
+      tenantId: 'default',
+      customStyles: {
+        styleOptions: {
+          // Launcher (toggle button) styling
+          launcher: {
+            background: '#db4061',
+            color: 'white',
+            width: '60px',
+            height: '60px'
+          },
+
+          // Chat window dimensions
+          rootWidth: '400px',
+          rootHeight: '700px',
+
+          // Input area styling
+          sendBoxBackground: 'white',
+
+          // Message bubbles
+          bubbleMaxWidth: 280,
+          bubbleBackground: "white",
+          bubbleFromUserBackground: "#20b69e",
+          bubbleTextColor: "#000000",
+          bubbleFromUserTextColor: "white",
+
+          // Avatar configuration
+          welcomeAvatarImage: 'https://e7.pngegg.com/pngimages/191/906/png-clipart-internet-bot-chatbot-business-chatbot-avatar-child-face.png',
+          hideAvatar: true,
+          avatarSize: 0,
+
+          // Welcome popup
+          welcomeInitialDelay: 10000, // 10 seconds
+
+          // Header configuration
+          headerTitle: 'Hi there! 👋',
+          headerSubtitle: 'Ask me anything — I'm here to help!',
+          headerBackgroundColor: '#101330',
+          headerTextColor: 'white',
+          showHeader: true
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

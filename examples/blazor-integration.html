@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ValueSpace Chat Widget - Blazor Integration Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #101330;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .config-panel {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #20b69e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #189e89;
+        }
+        .iframe-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 800px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ValueSpace Chat Widget - Blazor Integration Example</h1>
+            <p>This example demonstrates how to update the chat widget configuration from a Blazor application.</p>
+        </div>
+
+        <div class="content">
+            <div class="config-panel">
+                <h2>Widget Configuration</h2>
+                <p>Update the configuration and click "Apply Changes" to see the changes reflected in the widget.</p>
+                
+                <div class="form-group">
+                    <label for="headerTitle">Header Title:</label>
+                    <input type="text" id="headerTitle" value="Hi there! 👋" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="headerSubtitle">Header Subtitle:</label>
+                    <input type="text" id="headerSubtitle" value="Ask me anything — I'm here to help!" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="headerColor">Header Background Color:</label>
+                    <input type="color" id="headerColor" value="#101330" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="launcherColor">Launcher Background Color:</label>
+                    <input type="color" id="launcherColor" value="#db4061" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="welcomeDelay">Welcome Popup Delay (ms):</label>
+                    <input type="number" id="welcomeDelay" value="3000" min="0" step="1000" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="userHighlighting">User Message Highlighting:</label>
+                    <select id="userHighlighting">
+                        <option value="true" selected>Enabled</option>
+                        <option value="false">Disabled</option>
+                    </select>
+                </div>
+                
+                <button id="applyChanges">Apply Changes</button>
+            </div>
+            
+            <h2>Chat Widget Preview</h2>
+            <p>The chat widget is loaded in an iframe below. Changes to the configuration will be applied to this widget.</p>
+            
+            <div class="iframe-container">
+                <iframe id="chatWidgetFrame" src="/?example=true" allowfullscreen></iframe>
+            </div>
+            
+            <h2>Blazor Integration Code</h2>
+            <p>Here's how you can implement this in your Blazor application:</p>
+            
+            <h3>JavaScript Interop</h3>
+            <pre><code>// In your Blazor JavaScript interop file
+function updateChatWidgetConfig(config) {
+    // Get the iframe element
+    const iframe = document.getElementById('chatWidgetFrame');
+    
+    // Send the configuration update to the iframe
+    iframe.contentWindow.postMessage({
+        type: 'widgetConfigUpdate',
+        config: config
+    }, '*');
+    
+    return true;
+}</code></pre>
+            
+            <h3>Blazor Component</h3>
+            <pre><code>@page "/chat-config"
+@inject IJSRuntime JSRuntime
+
+&lt;div class="config-form">
+    &lt;div class="form-group">
+        &lt;label>Header Title:&lt;/label>
+        &lt;input @bind="headerTitle" />
+    &lt;/div>
+    
+    &lt;div class="form-group">
+        &lt;label>Header Color:&lt;/label>
+        &lt;input type="color" @bind="headerColor" />
+    &lt;/div>
+    
+    &lt;!-- Add more configuration options as needed -->
+    
+    &lt;button @onclick="ApplyChanges">Apply Changes&lt;/button>
+&lt;/div>
+
+&lt;iframe id="chatWidgetFrame" src="/chat-widget" />
+
+@code {
+    private string headerTitle = "Hi there! 👋";
+    private string headerColor = "#101330";
+    
+    private async Task ApplyChanges()
+    {
+        var config = new
+        {
+            customStyles = new
+            {
+                styleOptions = new
+                {
+                    headerTitle = headerTitle,
+                    headerBackgroundColor = headerColor,
+                    // Add more configuration options as needed
+                }
+            }
+        };
+        
+        await JSRuntime.InvokeAsync<bool>("updateChatWidgetConfig", config);
+    }
+}</code></pre>
+        </div>
+    </div>
+
+    <script>
+        // Example JavaScript to demonstrate the functionality
+        document.getElementById('applyChanges').addEventListener('click', function() {
+            // Get values from the form
+            const headerTitle = document.getElementById('headerTitle').value;
+            const headerSubtitle = document.getElementById('headerSubtitle').value;
+            const headerColor = document.getElementById('headerColor').value;
+            const launcherColor = document.getElementById('launcherColor').value;
+            const welcomeDelay = parseInt(document.getElementById('welcomeDelay').value);
+            const userHighlighting = document.getElementById('userHighlighting').value === 'true';
+            
+            console.log('Header Color:', headerColor);
+            console.log('Launcher Color:', launcherColor);
+            
+            // Create the configuration object
+            const config = {
+                botServiceUrl: 'http://localhost:3978',
+                userName: 'User',
+                tenantId: 'default',
+                customStyles: {
+                    styleOptions: {
+                        // Header configuration
+                        headerTitle: headerTitle,
+                        headerSubtitle: headerSubtitle,
+                        headerBackgroundColor: headerColor,
+                        headerTextColor: 'white',
+                        showHeader: true,
+                        
+                        // Launcher styling
+                        launcher: {
+                            background: launcherColor,
+                            color: 'white',
+                            width: '60px',
+                            height: '60px'
+                        },
+                        
+                        // Welcome popup
+                        welcomeInitialDelay: welcomeDelay,
+                        
+                        // Message styling
+                        userHighlighting: userHighlighting,
+                        bubbleBackground: "white",
+                        bubbleFromUserBackground: "#20b69e",
+                        bubbleTextColor: "#000000",
+                        bubbleFromUserTextColor: "white"
+                    }
+                }
+            };
+            
+            // Get the iframe element
+            const iframe = document.getElementById('chatWidgetFrame');
+            
+            // Send the configuration update to the iframe
+            iframe.contentWindow.postMessage({
+                type: 'widgetConfigUpdate',
+                config: config
+            }, '*');
+            
+            console.log('Sent configuration update:', config);
+        });
+    </script>
+</body>
+</html>
