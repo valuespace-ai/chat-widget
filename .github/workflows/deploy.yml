@@ -73,6 +73,12 @@ jobs:
       - name: Test SSH connection
         run: ssh azurevm echo "Connected!"
 
+      - name: List dist contents
+        run: ls -l dist/
+
+      - name: Deploy to VM via SCP
+        run: scp -r dist/* azurevm:${{ secrets.VM_DEPLOY_PATH }}
+
       - name: Debug List target folder after deploy
         uses: appleboy/ssh-action@master
         with:
@@ -82,12 +88,6 @@ jobs:
           script: |
             echo "Target path:"
             ls -l ${{ secrets.VM_DEPLOY_PATH }}
-
-      - name: List dist contents
-        run: ls -l dist/
-
-      - name: Deploy to VM via SCP
-        run: scp -r dist/. azurevm:${{ secrets.VM_DEPLOY_PATH }}
 
       - name: Run post-deployment tasks if needed
         uses: appleboy/ssh-action@master
