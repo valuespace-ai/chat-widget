@@ -59,11 +59,22 @@ jobs:
       - name: Check SSH target
         run: echo "Will connect to ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}"
 
-      - name: Decode SSH key and configure access
+      - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_rsa
+
           chmod 600 ~/.ssh/id_rsa
+
+          cat <<EOF > ~/.ssh/config
+          Host azurevm
+            HostName 74.161.33.236
+            User valuespace
+            IdentityFile ~/.ssh/id_rsa
+            IdentitiesOnly yes
+            StrictHostKeyChecking no
+          EOF
+        shell: bash
 
       - name: Configure Azure VM SSH
         run: |
