@@ -1,11 +1,14 @@
 {
-  "name": "react-chat-widget",
+  "name": "chat-widget",
   "version": "1.0.0",
-  "description": "Bot Framework Web Chat widget using React and Vite",
+  "description": "Bot Framework Web Chat widget using ReactJS and Vite",
   "main": "main.jsx",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "preview": "vite preview"
   },
   "dependencies": {
     "botframework-webchat": "^4.15.0",
