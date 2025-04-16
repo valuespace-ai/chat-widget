@@ -73,7 +73,7 @@ jobs:
       - name: Test SSH connection
         run: ssh azurevm echo "Connected!"
 
-      - name: Debug: List target folder after deploy
+      - name: Debug List target folder after deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VM_HOST }}
