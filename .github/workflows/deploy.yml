@@ -76,8 +76,11 @@ jobs:
       - name: List dist contents
         run: ls -l dist/
 
+      - name: List dist contents with dot
+        run: ls -l dist/.
+
       - name: Deploy to VM via SCP
-        run: scp -r dist/* azurevm:${{ secrets.VM_DEPLOY_PATH }}
+        run: scp dist/. azurevm:${{ secrets.VM_DEPLOY_PATH }}
 
       - name: Debug List target folder after deploy
         uses: appleboy/ssh-action@master
