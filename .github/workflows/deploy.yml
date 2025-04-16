@@ -77,7 +77,18 @@ jobs:
         run: ls -l dist/
 
       - name: Deploy to VM via SCP
-        run: scp dist/* azurevm:${{ secrets.VM_DEPLOY_PATH }}
+        run: scp dist/* azurevm:"C:/inetpub/wwwroot/chat-widget"
+
+      - name: Debug List contents after deployment (windows)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Current working directory:"
+            cd "${{ secrets.VM_DEPLOY_PATH }}"
+            dir
 
       - name: Debug List target folder after deploy
         uses: appleboy/ssh-action@master
