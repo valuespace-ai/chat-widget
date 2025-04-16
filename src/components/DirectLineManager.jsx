@@ -44,6 +44,10 @@ const DirectLineManager = {
 
       console.log('DirectLine created with token:', token);
       console.log('DirectLine created with conversationId:', conversationId);
+      console.log('Tenant ID:', tenantId);
+      console.log('User ID:', userId);
+      console.log('User Name:', userName);
+      console.log('Channel Data:', channelData);
 
       // Create store with channel data
       const store = createStore({}, ({ dispatch }) => next => action => {

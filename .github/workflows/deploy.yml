@@ -79,9 +79,9 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
-        script: |
-          echo "Target path:"
-          ls -l ${{ secrets.VM_DEPLOY_PATH }}
+          script: |
+            echo "Target path:"
+            ls -l ${{ secrets.VM_DEPLOY_PATH }}
 
       - name: List dist contents
         run: ls -l dist/
