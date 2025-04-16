@@ -15,7 +15,8 @@ export function AttachmentMiddleware(styleOptions) {
     // 1. Skip wrapping if adaptive card or text/plain
     if (
       attachment.contentType === 'application/vnd.microsoft.card.adaptive' ||
-      attachment.contentType === 'text/plain'
+      attachment.contentType === 'text/plain' ||
+      attachment.contentType === 'text/markdown'
     ) {
       return next(card);
     }
@@ -23,6 +24,13 @@ export function AttachmentMiddleware(styleOptions) {
     // Calculate className
     const isUser = activity && activity.from && activity.from.role === 'user';
     const className = isUser ? 'user_attachment' : 'bot_attachment';
+
+    if (!isUser) {
+      //console.log('Bot: Activity content type: ', attachment.contentType);
+    }
+    else {
+      //console.log('User: Activity content type: ', attachment.contentType);
+    }
 
     // 2. Audio attachment: render custom audio inside bubble
     if (

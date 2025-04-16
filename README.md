@@ -168,3 +168,8 @@ The endpoint should accept the following query parameters:
           );
       }
 ```
+
+
+## Connect in SHH to Azure VM
+ssh azurevm
+

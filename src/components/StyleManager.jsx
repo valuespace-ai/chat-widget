@@ -147,7 +147,6 @@ const StyleManager = {
       document.documentElement.style.setProperty('--user-bubble-background', styleOptions.bubbleFromUserBackground);
     }
     if (styleOptions.bubbleBackground) {
-      console.log('Bubble background:', styleOptions.bubbleBackground);
       document.documentElement.style.setProperty('--bot-bubble-background', styleOptions.bubbleBackground);
     }
     if (styleOptions.backgroundColor) {

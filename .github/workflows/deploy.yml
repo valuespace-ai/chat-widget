@@ -28,6 +28,9 @@ jobs:
       - name: Build for development
         run: npm run build:dev
 
+      - name: List files before copy
+        run: ls -lah dist
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
