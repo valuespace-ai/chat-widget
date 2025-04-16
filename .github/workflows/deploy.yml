@@ -1,0 +1,71 @@
+name: Build and Deploy Chat Widget
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  build:
+    name: Build Chat Widget
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build for development
+        run: npm run build:dev
+        
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chat-widget-build
+          path: dist/
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Azure VM
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: chat-widget-build
+          path: dist
+          
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+          
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+      
+      - name: Deploy to VM via SCP
+        run: |
+          scp -r dist/* ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:${{ secrets.VM_DEPLOY_PATH }}
+          
+      - name: Run post-deployment tasks if needed
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.VM_DEPLOY_PATH }}
+            echo "Deployment completed at $(date)" > deployment.log
