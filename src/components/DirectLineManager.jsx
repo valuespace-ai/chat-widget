@@ -38,7 +38,7 @@ const DirectLineManager = {
         token,
         //conversationId,
         watermark: '0',
-        domain: 'https://directline.botframework.com/v3/directline',
+        domain: 'https://europe.directline.botframework.com/v3/directline',
         webSocket: true // Enable WebSocket for better connection stability
       });
 

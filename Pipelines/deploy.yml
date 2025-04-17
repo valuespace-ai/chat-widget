@@ -1,0 +1,100 @@
+name: Build and Deploy Chat Widget
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Chat Widget
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for development
+        run: npm run build:dev
+
+      - name: List files before copy
+        run: ls -lah dist
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chat-widget-build
+          path: dist/
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Azure VM
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: chat-widget-build
+          path: dist
+
+      - name: Setup SSH key manually (plain text, not base64)
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Configure SSH config
+        run: |
+          cat <<EOF > ~/.ssh/config
+          Host azurevm
+            HostName ${{ secrets.VM_HOST }}
+            User ${{ secrets.VM_USERNAME }}
+            IdentityFile ~/.ssh/id_rsa
+            IdentitiesOnly yes
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Add Known Host
+        run: ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Test SSH connection
+        run: ssh azurevm echo "Connected!"
+
+      - name: List dist contents
+        run: ls -l dist/
+
+      - name: Deploy to VM via SCP
+        run: scp dist/* azurevm:"${{ secrets.VM_DEPLOY_PATH }}"
+
+      - name: Debug List target folder after deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Target path:"
+            ls -l ${{ secrets.VM_DEPLOY_PATH }}
+
+      - name: Run post-deployment tasks if needed
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.VM_DEPLOY_PATH }}
+            echo "Deployment completed at $(date)" > deployment.log
