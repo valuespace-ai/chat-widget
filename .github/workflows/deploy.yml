@@ -1,3 +1,10 @@
+name: Build and Deploy Chat Widget
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
 env:
   RESOURCE_GROUP: managedEnv20250417161852ResourceGroup
   CONTAINER_APP_ENVIRONMENT_NAME: managedEnvValueSpace
