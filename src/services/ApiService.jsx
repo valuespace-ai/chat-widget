@@ -8,10 +8,9 @@
  * @param {Blob} file - The file blob to upload
  * @param {string} tenantId - The tenantId identifier (default: 'vesperworld')
  * @param {string} origin - The origin of the file (default: 'file_upload')
- * @param {string} botServiceUrl - The base URL for the bot service (optional)
  * @returns {Promise<Object>} - Response with success status and URL or error
  */
-export const uploadFile = async (file, tenantId = 'vesperworld', origin = 'file_upload', botServiceUrl) => {
+export const uploadFile = async (file, tenantId = 'vesperworld', origin = 'web-chat') => {
   try {
     // Create FormData to send the file
     const formData = new FormData();
@@ -22,7 +21,7 @@ export const uploadFile = async (file, tenantId = 'vesperworld', origin = 'file_
     formData.append('origin', origin);
 
     // Determine the upload URL
-    const uploadUrl = botServiceUrl + '/api/Upload/UploadFile';
+    const uploadUrl = import.meta.env.VITE_BOT_SERVICE_URL + '/api/Upload/UploadFile';
     // Send the file to the backend service
     const response = await fetch(uploadUrl, {
       method: 'POST',
@@ -30,6 +29,8 @@ export const uploadFile = async (file, tenantId = 'vesperworld', origin = 'file_
     });
 
     if (!response.ok) {
+      const errorBody = await response.text(); // Or use response.json() if your API returns JSON
+      console.error(`Upload failed: ${response.status} - ${errorBody}`);
       throw new Error(`Upload failed with status: ${response.status}`);
     }
 
@@ -57,18 +58,17 @@ export const uploadFile = async (file, tenantId = 'vesperworld', origin = 'file_
  * @param {string} botServiceUrl - The base URL for the bot service
  * @returns {Promise<Object>} - Response with success status and URL or error
  */
-export const uploadAudioRecording = async (audioBlob, botServiceUrl) => {
-  return uploadFile(audioBlob, 'vesperworld', 'web-chat', botServiceUrl);
+export const uploadAudioRecording = async (audioBlob) => {
+  return uploadFile(audioBlob, 'vesperworld', 'web-chat');
 };
 
 /**
  * Uploads an image to the backend storage service
  * @param {Blob} imageBlob - The image blob to upload
- * @param {string} botServiceUrl - The base URL for the bot service
  * @returns {Promise<Object>} - Response with success status and URL or error
  */
-export const uploadImage = async (imageBlob, botServiceUrl) => {
-  return uploadFile(imageBlob, 'vesperworld', 'web-chat', botServiceUrl);
+export const uploadImage = async (imageBlob) => {
+  return uploadFile(imageBlob, 'vesperworld', 'web-chat');
 };
 
 export default {

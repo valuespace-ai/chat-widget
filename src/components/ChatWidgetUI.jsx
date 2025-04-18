@@ -110,7 +110,7 @@ const ChatWidgetUI = ({
 
   // Upload audio to backend and get public URL
   const uploadAudioToBackend = async (file) => {
-    return uploadAudioRecording(file, botServiceUrl);
+    return uploadAudioRecording(file);
   };
 
   // Handle recording completion

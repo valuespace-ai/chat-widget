@@ -11,19 +11,12 @@ const StyleManager = {
    * @param {object} configStyle - Style provided in the component config
    * @returns {object} - All processed style values in a single object
    */
-  processStyles: (serverStyle, configStyle) => {
+  processStyles: (serverStyle) => {
     // Server and config style options with defaults
     const serverStyleOptions = serverStyle?.styleOptions || {};
-    const configStyleOptions = configStyle?.styleOptions || {};
-
-    //console.log('Server styleOptions:', serverStyleOptions);
-    console.log('Config styleOptions:', configStyleOptions);
 
     // Deep merge style options using deepmerge library
-    const styleOptions = deepmerge(serverStyleOptions, configStyleOptions);
-
-    //console.log('Merged styleOptions:', styleOptions);
-
+    const styleOptions = serverStyleOptions;
     // Extract launcher for convenience
     const launcherStyle = styleOptions.launcher || {};
 
@@ -33,12 +26,15 @@ const StyleManager = {
     // Determine if voice recorder should be hidden
     const hideVoiceRecorder = styleOptions.hideVoiceRecorder || false;
 
+    const adaptiveCardsContainerStyles = styleOptions.adaptiveCardsHostConfig?.containerStyles || {};
+
     // Return all processed styles in a single object
     return {
       styleOptions,
       highlightingEnabled,
       launcherStyle,
-      hideVoiceRecorder
+      hideVoiceRecorder,
+      adaptiveCardsContainerStyles
     };
   },
 
@@ -66,39 +62,8 @@ const StyleManager = {
     return {
       customStyles: {
         styleOptions: {
-          launcher: {
-            background: '#db4061',
-            color: 'white',
-            width: '60px',
-            height: '60px'
-          },
-          rootWidth: '400px',
-          rootHeight: '700px',
-          buttonColor: '#767676',
-          sendBoxButtonColor: '#767676',
-          sendBoxBackground: 'white',
-          bubbleMaxWidth: 280,
-          welcomeAvatarImage: 'https://e7.pngegg.com/pngimages/191/906/png-clipart-internet-bot-chatbot-business-chatbot-avatar-child-face.png',
-          welcomeInitialDelay: 10000,
-          botAvatarImage: undefined,
           botAvatarInitials: undefined,
           userAvatarInitials: undefined,
-          hideSendBox: false,
-          hideAvatar: true,
-          avatarSize: 0,
-
-          userHighlighting: true,
-          bubbleBackground: "white",
-          bubbleFromUserBackground: "#20b69e",
-          bubbleTextColor: "#000000",
-          bubbleFromUserTextColor: "white",
-
-          // Header configuration
-          headerTitle: 'Hi there! 👋',
-          headerSubtitle: "Ask me anything — I'm here to help!",
-          headerBackgroundColor: '#101330',
-          headerTextColor: 'white',
-          showHeader: true
         }
       }
     };
@@ -167,49 +132,6 @@ const StyleManager = {
           return element && <div className={card.activity.from.role === 'user' ? 'highlightedActivity--user' : 'highlightedActivity--bot'}>{element}</div>;
         };
       }
-    };
-  },
-
-  /**
-   * Creates WebChat configuration with all necessary style options
-   * @param {object} styleOptions - Style options for WebChat
-   * @param {object} activityMiddleware - Activity middleware for WebChat
-   * @param {object} attachmentMiddleware - Attachment middleware for WebChat
-   * @param {object} directLine - DirectLine connection
-   * @param {object} store - WebChat store
-   * @returns {object} - Complete WebChat configuration
-   */
-  createWebChatConfig: (styleOptions, activityMiddleware, attachmentMiddleware, directLine, store) => {
-    return {
-      directLine,
-      locale: 'ru-RU', // or 'en-US', 'de-DE', 'fr-FR', etc.
-      enableUIAdaptiveCards: true,
-      styleOptions: {
-        ...styleOptions
-      },
-      experimentalFeatureSettings: {
-        adaptiveCards: {
-          enableActionExecute: true
-        },
-        // Enable file uploads if not already enabled
-        uploadThumbnail: true
-      },
-      adaptiveCardsHostConfig: {
-        supportsInteractivity: true,
-        containerStyles: {
-          default: {
-            backgroundColor: "#FFF5EE"
-          },
-          emphasis: {
-            backgroundColor: "#b89500" // optional, for inner containers
-          }
-        }
-      },
-      debug: true,
-      sendTypingIndicator: true,
-      store,
-      activityMiddleware,
-      attachmentMiddleware
     };
   }
 };

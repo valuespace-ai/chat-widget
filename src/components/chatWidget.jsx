@@ -151,10 +151,8 @@ const ChatWidget = (props) => {
       // Get default configuration from StyleManager
       const defaultConfig = StyleManager.getDefaultConfig();
 
-      // Merge default config with props for the final configuration
-      console.log('Merging default config with props:', defaultConfig);
       const config = defaultConfig;
-      stylesRef.current = StyleManager.processStyles(serverStyle, config.customStyles);
+      stylesRef.current = StyleManager.processStyles(serverStyle);
 
       // Make the store globally accessible
       window.webChatStore = webChatStore;
@@ -168,21 +166,32 @@ const ChatWidget = (props) => {
         stylesRef.current.styleOptions?.userHighlighting || false
       );
 
-      // Get WebChat configuration from StyleManager
-      const webChatConfig = StyleManager.createWebChatConfig(
-        stylesRef.current.styleOptions,
-        activityMiddleware,
-        attachmentMiddleware,
-        directLine,
-        webChatStore
-      );
-
       // Get the webchat container element
       const webchatElement = document.getElementById('webchat');
 
       // Render WebChat with configuration
       window.WebChat.renderWebChat(
-        webChatConfig,
+        {
+          directLine,
+          locale: 'ru-RU', // or 'en-US', 'de-DE', 'fr-FR', etc.
+          enableUIAdaptiveCards: true,
+          styleOptions: stylesRef.current.styleOptions,
+          experimentalFeatureSettings: {
+            adaptiveCards: {
+              enableActionExecute: true
+            },
+            uploadThumbnail: true
+          },
+          adaptiveCardsHostConfig: {
+            supportsInteractivity: true,
+            containerStyles: stylesRef.current.adaptiveCardsContainerStyles
+          },
+          debug: true,
+          sendTypingIndicator: true,
+          store: webChatStore,
+          activityMiddleware,
+          attachmentMiddleware
+        },
         webchatElement
       );
 
