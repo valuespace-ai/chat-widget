@@ -17,7 +17,7 @@ const StyleManager = {
     const configStyleOptions = configStyle?.styleOptions || {};
 
     //console.log('Server styleOptions:', serverStyleOptions);
-    //console.log('Config styleOptions:', configStyleOptions);
+    console.log('Config styleOptions:', configStyleOptions);
 
     // Deep merge style options using deepmerge library
     const styleOptions = deepmerge(serverStyleOptions, configStyleOptions);
@@ -64,9 +64,6 @@ const StyleManager = {
    */
   getDefaultConfig: () => {
     return {
-      userName: 'User',
-      tenantId: 'default',
-      channelData: {},
       customStyles: {
         styleOptions: {
           launcher: {
@@ -103,14 +100,13 @@ const StyleManager = {
           headerTextColor: 'white',
           showHeader: true
         }
-      },
-      inputPlaceholder: "Type a message"
+      }
     };
   },
 
   /**
    * Apply all CSS variables for root styling
-   * @param {object} styleOptions - Style options
+ * @param {object} styleOptions - Style options
    */
   applyRootCssVariables: (styleOptions) => {
     if (!styleOptions) return;

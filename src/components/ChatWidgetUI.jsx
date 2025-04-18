@@ -25,8 +25,7 @@ const ChatWidgetUI = ({
   header,
   isChatOpen,
   styleOptions,
-  onShowWelcomePopupRef,
-  botServiceUrl
+  onShowWelcomePopupRef
 }) => {
   const [webChatStore, setWebChatStore] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -258,44 +257,45 @@ const ChatWidgetUI = ({
     }
   }, [styleOptions, connectionConfirmed, isChatOpen, chatWasEverOpened, showInvitation]);
 
+  const findSendBoxMain = () => {
+    const webchatElement = document.getElementById('webchat');
+    if (!webchatElement) return;
+
+    const sendBoxMainElement = webchatElement.querySelector('.webchat__send-box__main');
+    if (!sendBoxMainElement) return;
+
+    // Create a container for the recorder that will be inserted at the beginning
+    const recorderContainerElement = document.createElement('div');
+    recorderContainerElement.className = 'recorder-container';
+
+    // Insert the recorder container at the beginning of sendBoxMain
+    if (sendBoxMainElement.firstChild) {
+      sendBoxMainElement.insertBefore(recorderContainerElement, sendBoxMainElement.firstChild);
+    } else {
+      sendBoxMainElement.appendChild(recorderContainerElement);
+    }
+
+    // Store both elements in state
+    setSendBoxMain(sendBoxMainElement);
+    setRecorderContainer(recorderContainerElement);
+    portalMountedRef.current = true;
+
+    // Try to get the WebChat store from the global window object
+    if (window.webChatStore) {
+      setWebChatStore(window.webChatStore);
+    } else {
+    }
+
+    // Clear the interval once we've found the element
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
   // Add AudioRecorder to the WebChat send box
   useEffect(() => {
     if (connectionConfirmed && directLine && !portalMountedRef.current && !hideVoiceRecorder) {
-      const findSendBoxMain = () => {
-        const webchatElement = document.getElementById('webchat');
-        if (!webchatElement) return;
-
-        const sendBoxMainElement = webchatElement.querySelector('.webchat__send-box__main');
-        if (!sendBoxMainElement) return;
-
-        // Create a container for the recorder that will be inserted at the beginning
-        const recorderContainerElement = document.createElement('div');
-        recorderContainerElement.className = 'recorder-container';
-
-        // Insert the recorder container at the beginning of sendBoxMain
-        if (sendBoxMainElement.firstChild) {
-          sendBoxMainElement.insertBefore(recorderContainerElement, sendBoxMainElement.firstChild);
-        } else {
-          sendBoxMainElement.appendChild(recorderContainerElement);
-        }
-
-        // Store both elements in state
-        setSendBoxMain(sendBoxMainElement);
-        setRecorderContainer(recorderContainerElement);
-        portalMountedRef.current = true;
-
-        // Try to get the WebChat store from the global window object
-        if (window.webChatStore) {
-          setWebChatStore(window.webChatStore);
-        } else {
-        }
-
-        // Clear the interval once we've found the element
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-        }
-      };
 
       // Try to find the send box after WebChat is fully rendered
       intervalRef.current = setInterval(() => {

@@ -43,7 +43,7 @@ if (import.meta.env.DEV) {
   if (rootEl) {
     ReactDOM.createRoot(rootEl).render(
       // Removed <React.StrictMode> to avoid double-mount/dev logs
-      <ChatWidget />
+      <ChatWidget userName="Guest" tenantId="vesperworld" channelData={{}} />
     );
   }
 }

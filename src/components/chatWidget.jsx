@@ -29,12 +29,6 @@ window.chatWidgetProactive = {
 };
 
 const ChatWidget = (props) => {
-  // Get default configuration from StyleManager
-  const defaultConfig = StyleManager.getDefaultConfig();
-
-  // Merge default config with props for the final configuration
-  const config = StyleManager.mergeConfigurations(defaultConfig, props);
-
   const [webchatStarted, setWebchatStarted] = useState(false);
   const [connectionConfirmed, setConnectionConfirmed] = useState(false);
   const containerRef = useRef(null);
@@ -62,9 +56,9 @@ const ChatWidget = (props) => {
       const { directLine: dl, serverStyle, store, newConversation } = await DirectLineManager.createConnection(
         import.meta.env.VITE_BOT_SERVICE_URL,
         userId.current,
-        config.userName,
-        config.tenantId,
-        config.channelData
+        props.userName,
+        props.tenantId,
+        props.channelData
       );
 
       // Save the store to state so it can be used later
@@ -74,7 +68,7 @@ const ChatWidget = (props) => {
       setServerStyle(serverStyle);
 
       // Handle connection status with DirectLineManager
-      DirectLineManager.handleConnectionStatus(dl, newConversation, userId.current, config.userName, {
+      DirectLineManager.handleConnectionStatus(dl, newConversation, userId.current, props.userName, {
         onConnectionFailed: () => {
           console.error('Connection failed');
           setConnectionConfirmed(false);
@@ -130,7 +124,7 @@ const ChatWidget = (props) => {
     } catch (error) {
       console.error('Error setting style state values:', error);
     }
-  }, [serverStyle, config.customStyles]);
+  }, [serverStyle]);
 
   // Create a ref to store the showWelcomePopup function
   const showWelcomePopupRef = useRef(null);
@@ -154,6 +148,12 @@ const ChatWidget = (props) => {
 
     try {
       // Process all styles in a single step
+      // Get default configuration from StyleManager
+      const defaultConfig = StyleManager.getDefaultConfig();
+
+      // Merge default config with props for the final configuration
+      console.log('Merging default config with props:', defaultConfig);
+      const config = defaultConfig;
       stylesRef.current = StyleManager.processStyles(serverStyle, config.customStyles);
 
       // Make the store globally accessible
@@ -233,9 +233,9 @@ const ChatWidget = (props) => {
 
     // Fallback to default styles
     return {
-      launcherStyle: config.customStyles.styleOptions?.launcher || {},
+      launcherStyle: serverStyle?.styleOptions?.launcher || {},
       hideVoiceRecorder: false,
-      headerOptions: config.customStyles.styleOptions
+      headerOptions: serverStyle?.styleOptions
     };
   };
 
@@ -267,7 +267,6 @@ const ChatWidget = (props) => {
       isChatOpen={isChatOpen}
       styleOptions={styleOptions}
       onShowWelcomePopupRef={showWelcomePopupRef}
-      botServiceUrl={config.botServiceUrl}
     />
   );
 };
