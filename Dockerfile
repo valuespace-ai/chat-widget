@@ -3,7 +3,7 @@ FROM node:18 AS builder
 WORKDIR /app
 COPY . .
 RUN npm ci
-RUN npm run build:dev
+RUN npm run build:lib
 
 # Runtime stage
 FROM nginx:alpine

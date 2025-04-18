@@ -54,11 +54,12 @@ const DirectLineManager = {
         // Safe logging only for actions that include an activity
         if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
           if (action.payload.activity.type !== 'typing') {
-            //console.log('✅ Bot incoming activity:', action.payload.activity);
+            //console.log('[DirectLine] Incoming activity:', action.payload.activity);
           }
         }
 
         if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
+          //console.log('[DirectLine] Outgoing message:', action.payload);
           action.payload = {
             ...action.payload,
             channelData: {
