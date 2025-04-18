@@ -3,6 +3,7 @@ FROM node:18 AS builder
 WORKDIR /app
 COPY . .
 RUN npm ci
+ENV VITE_BOT_SERVICE_URL=https://valuespace-chat-bot.greenocean-c31c3e3d.switzerlandnorth.azurecontainerapps.io
 RUN npm run build:dev
 
 # Stage 2: Serve with NGINX

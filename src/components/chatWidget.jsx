@@ -55,10 +55,12 @@ const ChatWidget = (props) => {
   const startWebChat = async () => {
     if (webchatStarted) return;
 
+    console.log("import.meta.env.VITE_BOT_SERVICE_URL", import.meta.env.VITE_BOT_SERVICE_URL);
+
     try {
       // Create DirectLine connection
       const { directLine: dl, serverStyle, store, newConversation } = await DirectLineManager.createConnection(
-        config.botServiceUrl,
+        import.meta.env.VITE_BOT_SERVICE_URL,
         userId.current,
         config.userName,
         config.tenantId,

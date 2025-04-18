@@ -64,7 +64,6 @@ const StyleManager = {
    */
   getDefaultConfig: () => {
     return {
-      botServiceUrl: 'http://localhost:3978',
       userName: 'User',
       tenantId: 'default',
       channelData: {},

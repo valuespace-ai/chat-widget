@@ -78,7 +78,7 @@ The chat widget accepts the following configuration options:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `botServiceUrl` | string | 'http://localhost:3978' | URL of your Bot Framework service |
+| `botServiceUrl` | string |  | URL of your Bot Framework service |
 | `userName` | string | 'User' | Name of the user |
 | `tenantId` | string | 'vesperworld' | Tenant ID for your bot |
 | `launcherIcon` | string | '💬' | Emoji or text for the launcher button |
@@ -172,4 +172,3 @@ The endpoint should accept the following query parameters:
 
 ## Connect in SHH to Azure VM
 ssh azurevm
-
