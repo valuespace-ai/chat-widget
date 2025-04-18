@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ChatWidget from './src/components/chatWidget.jsx';
 import './src/components/chatWidget.css';
+import ChatWidget from './src/components/chatWidget.jsx';
 import './src/styles/test-buttons.css';
 
 // Create test buttons for proactive messaging
@@ -9,7 +9,7 @@ const createTestButtons = () => {
   // Create container for test buttons
   const testButtonsContainer = document.createElement('div');
   testButtonsContainer.className = 'notification-test-panel';
-  
+
   // Create notification test button
   const notificationButton = document.createElement('button');
   notificationButton.className = 'notification-test-button';
@@ -23,7 +23,7 @@ const createTestButtons = () => {
       });
     }
   });
-  
+
   // Create proactive message test button
   const proactiveButton = document.createElement('button');
   proactiveButton.className = 'notification-test-button';
@@ -33,7 +33,7 @@ const createTestButtons = () => {
       window.chatWidgetProactive.sendProactiveMessage("Hello! This is a proactive message from the bot.");
     }
   });
-  
+
   // Create welcome popup test button
   const welcomeButton = document.createElement('button');
   welcomeButton.className = 'notification-test-button';
@@ -46,12 +46,12 @@ const createTestButtons = () => {
       console.error('Welcome popup function not available');
     }
   });
-  
+
   // Add buttons to container
   testButtonsContainer.appendChild(notificationButton);
   testButtonsContainer.appendChild(proactiveButton);
   testButtonsContainer.appendChild(welcomeButton);
-  
+
   // Add container to document
   document.body.appendChild(testButtonsContainer);
 };
@@ -70,9 +70,9 @@ window.initChatWidget = (config = {}) => {
   // Render the chat widget with the provided configuration
   const root = ReactDOM.createRoot(container);
   root.render(<ChatWidget {...config} />);
-  
+
   // Create test buttons for development
-  if (config.showTestButtons || process.env.NODE_ENV === 'development') {
+  if (config.showTestButtons || window.__CHAT_WIDGET_DEV_MODE__) {
     setTimeout(() => createTestButtons(), 1000);
   }
 
@@ -81,7 +81,7 @@ window.initChatWidget = (config = {}) => {
     destroy: () => {
       root.unmount();
       container.remove();
-      
+
       // Remove test buttons if they exist
       const testButtons = document.querySelector('.notification-test-panel');
       if (testButtons) {
@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rootElement) {
     const root = ReactDOM.createRoot(rootElement);
     root.render(<ChatWidget />);
-    
+
     // Create test buttons for development
-    if (process.env.NODE_ENV === 'development') {
+    if (window.__CHAT_WIDGET_DEV_MODE__) {
       setTimeout(() => createTestButtons(), 1000);
     }
   }

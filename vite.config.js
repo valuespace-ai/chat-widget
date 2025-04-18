@@ -3,6 +3,9 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+  },
   plugins: [react()],
   root: '.',
   resolve: {
@@ -24,7 +27,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'main.jsx'),
       name: 'VSChatWidget',
       fileName: (format) => `vs-chat-widget.${format}.js`,
-      formats: ['es', 'umd', 'iife']
+      formats: ['iife']
     },
     rollupOptions: {
       output: {
@@ -37,7 +40,7 @@ export default defineConfig({
       },
       external: []
     },
-    sourcemap: true,
-    minify: 'terser'
+    sourcemap: false,
+    minify: false // 'terser'
   }
 });
