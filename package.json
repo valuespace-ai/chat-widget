@@ -10,7 +10,10 @@
     "build:dev": "vite build --mode development",
     "build:staging": "vite build --mode staging",
     "build:prod": "vite build --mode production",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:app": "vite --config vite.config.app.js",
+    "build:lib": "vite build --config vite.config.lib.js",
+    "preview:app": "vite preview --config vite.config.app.js"
   },
   "dependencies": {
     "botframework-webchat": "^4.15.0",

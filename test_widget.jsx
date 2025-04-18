@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import ChatWidget from './src/components/chatWidget';
 import './src/components/chatWidget.css';
-import ChatWidget from './src/components/chatWidget.jsx';
 import './src/styles/test-buttons.css';
 
 // Create test buttons for proactive messaging
