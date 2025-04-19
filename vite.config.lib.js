@@ -18,6 +18,7 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: 'cdn',
     lib: {
       entry: resolve(__dirname, 'main.jsx'),
       name: 'VSChatWidget',
