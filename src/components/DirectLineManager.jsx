@@ -16,6 +16,7 @@ const DirectLineManager = {
    */
   createConnection: async (botServiceUrl, userId, userName, tenantId, channelData = {}) => {
     try {
+      console.log('Starting connection: ' + `${botServiceUrl}/api/directline/token?userId=${userId}&userName=${encodeURIComponent(userName)}&tenantId=${tenantId}`);
       const res = await fetch(`${botServiceUrl}/api/directline/token?userId=${userId}&userName=${encodeURIComponent(userName)}&tenantId=${tenantId}`);
       let responseData = await res.text();
       console.log('botServiceUrl:', botServiceUrl);

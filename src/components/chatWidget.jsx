@@ -90,7 +90,6 @@ const ChatWidget = (props) => {
       setDirectLine(dl);
       setWebchatStarted(true);
     } catch (error) {
-      console.log('%c[ChatWidget] Merged with default configuration:', 'background: #db4061; color: white; padding: 4px 8px; border-radius: 4px;', configFromUrl);
       console.error('Error initializing Web Chat:', error);
     }
   };

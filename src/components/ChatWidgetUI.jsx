@@ -178,6 +178,7 @@ const ChatWidgetUI = ({
           contentType: 'application/vnd.microsoft.card.audio',
           content: {
             media: [{ url: contentUrl }],
+            thumbnailUrl: 'https://static.thenounproject.com/png/2634986-200.png',
             autoloop: false,
             autostart: false,
             shareable: true,
